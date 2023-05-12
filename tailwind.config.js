@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode:'class',
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
     "./pages/**/*.{js,ts,jsx,tsx}",
@@ -14,7 +15,7 @@ module.exports = {
         'slide-up': {
           '0%' :{transform: 'translateY(100%)'},
           '100%': {transform: 'translateY(0%)'}
-        }
+        },
       },
       animation: {
         'slide-up': 'slide-up .3s ease-in-out forwards',

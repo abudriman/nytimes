@@ -3,7 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { XCircle, Search, Moon, Sun } from 'react-feather';
 import { useTheme } from 'next-themes';
-import { useState, ChangeEvent, useRef, useEffect, useCallback } from 'react';
+import { ChangeEvent, useRef, useEffect, useCallback } from 'react';
+import { useStoreActions, useStoreState } from '@/hooks/useStore';
 
 //TODO: pisah
 
@@ -26,12 +27,13 @@ const ToggleModeButton = () => {
 };
 
 const SearchBar = () => {
-  const [inputValue, setInputValue] = useState('');
+  const setSearchQuery = useStoreActions(actions => actions.setSearchQuery);
+  const searchQuery = useStoreState(state => state.searchQuery);
   const resetInput = () => {
-    setInputValue('');
+    setSearchQuery('');
   };
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+    setSearchQuery(e.target.value);
   };
   const inputRef = useRef<HTMLInputElement>(null);
   return (
@@ -40,7 +42,6 @@ const SearchBar = () => {
         className="flex flex-col justify-center"
         onSubmit={e => {
           e.preventDefault();
-          alert(inputValue);
         }}
         title="search"
       >
@@ -69,7 +70,7 @@ const SearchBar = () => {
         <label
           htmlFor="reset-button"
           title="clear search"
-          className={`${inputValue ? '' : 'hidden'}`}
+          className={`${searchQuery ? '' : 'hidden'}`}
         >
           <XCircle
             size={18}

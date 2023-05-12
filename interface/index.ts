@@ -1,1 +1,1 @@
-// export type { default as StoreModel } from '../store/models'
+export type { default as IArticle } from './IArticle'

@@ -11,6 +11,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        'main-dark': '#1C1B22'
+      },
       keyframes: {
         'slide-up': {
           '0%' :{transform: 'translateY(100%)'},

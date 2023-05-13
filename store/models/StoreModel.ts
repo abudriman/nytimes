@@ -1,5 +1,5 @@
-import ArticleModel from "./ArticleModel";
+import SearchModel from "./SearchModel";
 
-interface StoreModel extends ArticleModel { }
+interface StoreModel extends SearchModel { }
 
 export default StoreModel

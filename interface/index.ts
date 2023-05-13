@@ -1,1 +1,8 @@
 export type { default as IArticle } from './IArticle'
+export type { default as IByline } from './IByline'
+export type { default as IHeadline } from './IHeadline'
+export type { default as IKeyword } from './IKeyword'
+export type { default as IMetadata } from './IMetadata'
+export type { default as IMultimedia } from './IMultimedia'
+export type { default as IPerson } from './IPerson'
+export type { default as IArticleResponse } from './IArticleResponse'

@@ -32,9 +32,15 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     <StoreProvider store={store}>
       <ThemeProvider attribute="class">
         <WaitForStateRehydration>
-          <main className={inter.className}>
-            <Component {...pageProps} />
-          </main>
+          {/* 👇 this div is the most outer scrolling element */}
+          <div className="h-screen max-h-screen overflow-y-auto overflow-x-hidden">
+            {/* 👆 this div is the most outer scrolling element */}
+            <main
+              className={`${inter.className} text-black dark:text-white min-h-screen  dark:bg-main-dark`}
+            >
+              <Component {...pageProps} />
+            </main>
+          </div>
         </WaitForStateRehydration>
       </ThemeProvider>
     </StoreProvider>,

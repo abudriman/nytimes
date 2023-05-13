@@ -45,7 +45,7 @@ const Home = () => {
             <button
               title="search article"
               onClick={() => search()}
-              className="bg-zinc-200 hover:bg-zinc-400 dark:hover:bg-zinc-600 dark:bg-zinc-700 px-4 py-2 rounded-sm"
+              className="ny-button"
             >
               Search Article
             </button>

@@ -5,6 +5,8 @@ import Head from 'next/head';
 import { IArticle } from '@/interface';
 import Image from 'next/image';
 import Link from 'next/link';
+import { format } from 'date-fns';
+import { ImageWithFallback } from '@/components/global';
 
 const ArticleCard = ({ article }: { article: IArticle }) => {
   return (
@@ -12,41 +14,53 @@ const ArticleCard = ({ article }: { article: IArticle }) => {
       href={article.web_url}
       target="_blank"
       rel="noopener noreferrer"
-      className="bg-zinc-200 dark:bg-zinc-900 min-h-[100px] w-auto overflow-hidden rounded-md"
+      className="bg-zinc-200 dark:bg-zinc-900 min-h-[100px] w-auto overflow-hidden rounded-md shadow-md"
     >
-      <div className="flex flex-row lg:flex-col">
-        <div className=" overflow-hidden ">
+      <div className="flex flex-row lg:flex-col items-stretch h-full">
+        <div className=" overflow-hidden relative">
+          <span className="font-bold uppercase text-xs absolute z-10 bottom-0 right-0 bg-black text-white dark:bg-white dark:text-black">
+            {format(new Date(article.pub_date ?? Date.now()), 'MMM d, yyyy')}
+            &nbsp;
+          </span>
           {article.multimedia.length ? (
-            <Image
+            <ImageWithFallback
               height={144}
               width={500}
-              style={{
-                objectFit: 'cover',
-                objectPosition: 'center',
-                width: '100%',
-              }}
-              className="h-28 w-28 max-w-[7rem] min-w-[7rem] lg:w-full lg:max-w-full lg:min-w-full   overflow-hidden"
+              className="min-h-[9rem] h-full w-36 max-w-[9rem] min-w-[9rem] lg:h-36 lg:w-full lg:max-w-full lg:min-w-full object-cover object-center lg:object-top"
               src={'https://www.nytimes.com/' + article.multimedia[0].url}
-              alt={article.multimedia[0].caption}
-            ></Image>
+              alt={
+                article.multimedia[0].caption ??
+                'image of ' + article.headline.main
+              }
+              // onError={e => e.currentTarget.src = "/news-placeholder.jpg"}
+              title={
+                article.multimedia[0].caption ??
+                'image of ' + article.headline.main
+              }
+            ></ImageWithFallback>
           ) : (
             <Image
               height={144}
               width={500}
-              style={{
-                objectFit: 'cover',
-                objectPosition: 'center',
-                width: '100%',
-              }}
-              className="h-28 w-28 max-w-[7rem] min-w-[7rem] lg:w-full lg:max-w-full lg:min-w-full  overflow-hidden"
+              className="min-h-[9rem] h-full w-36 max-w-[9rem] min-w-[9rem] lg:h-36 lg:w-full lg:max-w-full lg:min-w-full object-cover object-center lg:object-top dark:invert"
               src="/news-placeholder.jpg"
               alt="new york times articles"
             ></Image>
           )}
         </div>
-        <div className="flex-1 flex-col">
-          <h6>{article.headline.main}</h6>
-          <p></p>
+        <div className="flex-1 flex-col p-2">
+          <h6
+            className="text-base font-bold line-clamp-3"
+            title={article.headline.main}
+          >
+            {article.headline.main}
+          </h6>
+          <p className="text-xs line-clamp-1" title={article.byline.original}>
+            {article.byline.original}
+          </p>
+          <p className="text-sm line-clamp-4" title={article.snippet}>
+            {article.snippet}
+          </p>
         </div>
       </div>
     </Link>
@@ -61,21 +75,14 @@ const ArticleCardSkeleton = () => {
 
 const ArticleGrid = () => {
   const { articles, size, setSize, isLoading, isError } = useArticles();
+  console.log(size);
+  const loadMore = () => {
+    setSize(size + 1);
+  };
   if (isError) {
     <div className="flex">
       <p>Error occured</p>
     </div>;
-  }
-  if (isLoading) {
-    return (
-      <div className="px-4 md:px-0 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {Array(50)
-          .fill(0)
-          .map((fill, index) => {
-            return <ArticleCardSkeleton key={index} />;
-          })}
-      </div>
-    );
   }
   if (!articles) {
     return (
@@ -85,13 +92,31 @@ const ArticleGrid = () => {
     );
   }
   return (
-    <div className="px-4 md:px-0 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {articles.map((response, pageIndex) => {
-        return response.response?.docs?.map((article, index) => {
-          return <ArticleCard key={index} article={article} />;
-        });
-      })}
-    </div>
+    <>
+      <div className="px-4 md:px-0 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {articles.map((response, pageIndex) => {
+          return response.response?.docs?.map((article, index) => {
+            return <ArticleCard key={index} article={article} />;
+          });
+        })}
+      </div>
+      {isLoading && (
+        <div className="px-4 md:px-0 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {Array(50)
+            .fill(0)
+            .map((fill, index) => {
+              return <ArticleCardSkeleton key={index} />;
+            })}
+        </div>
+      )}
+      <button
+        onClick={loadMore}
+        title="load more"
+        className="ny-button mx-auto mb-8 block"
+      >
+        Load More
+      </button>
+    </>
   );
 };
 
@@ -117,7 +142,7 @@ const Result = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ResultHeader />
-      <main className="container mx-auto space-y-4">
+      <main className="container mx-auto space-y-4 py-4">
         <ArticleGrid />
       </main>
     </>

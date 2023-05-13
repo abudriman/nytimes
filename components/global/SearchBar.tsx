@@ -109,7 +109,7 @@ const SearchBar = () => {
       {!searchHistory.length ? null : (
         <div
           tabIndex={0}
-          className={`absolute top-full flex overflow-hidden flex-col mt-3 rounded-lg left-0 right-0 text-black bg-gray-100 ${
+          className={`z-50 absolute top-full flex overflow-hidden flex-col mt-3 rounded-lg left-0 right-0 text-black bg-gray-100 ${
             isFocus ? '' : 'hidden'
           }`}
         >

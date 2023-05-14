@@ -1,0 +1,130 @@
+{
+  "id": "4fdea249-99ed-4240-a1a6-a61ca92ac2f0",
+  "version": "2.0",
+  "name": "nytimes",
+  "url": "http://localhost:3333",
+  "tests": [{
+    "id": "51f6830b-98d8-4140-b10c-fa63768f7149",
+    "name": "basic search",
+    "commands": [{
+      "id": "6f16026c-c987-4e7c-b88b-da222991f938",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5050cf4d-578c-4590-8762-41151ad8113f",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "516x1040",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6a7502f7-3262-489d-a588-f8f41090dd8f",
+      "comment": "",
+      "command": "click",
+      "target": "id=search-bar",
+      "targets": [
+        ["id=search-bar", "id"],
+        ["css=#search-bar", "css:finder"],
+        ["xpath=//input[@id='search-bar']", "xpath:attributes"],
+        ["xpath=//div[@id='__next']/div/main/main/section/div/div/form/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "caa1a31b-3cc7-4ea3-bc7c-4b2eae33d1ee",
+      "comment": "",
+      "command": "type",
+      "target": "id=search-bar",
+      "targets": [
+        ["id=search-bar", "id"],
+        ["css=#search-bar", "css:finder"],
+        ["xpath=//input[@id='search-bar']", "xpath:attributes"],
+        ["xpath=//div[@id='__next']/div/main/main/section/div/div/form/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "donald trump"
+    }, {
+      "id": "f30f4ff4-647c-46d8-ab5a-93cef2e0d20e",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "id=search-bar",
+      "targets": [
+        ["id=search-bar", "id"],
+        ["css=#search-bar", "css:finder"],
+        ["xpath=//input[@id='search-bar']", "xpath:attributes"],
+        ["xpath=//div[@id='__next']/div/main/main/section/div/div/form/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }, {
+      "id": "d2e013b8-9ab0-4a76-9ab5-37bc69d65504",
+      "comment": "",
+      "command": "click",
+      "target": "css=.bg-zinc-200:nth-child(7) .flex-1",
+      "targets": [
+        ["css=.bg-zinc-200:nth-child(7) .flex-1", "css:finder"],
+        ["xpath=//div[@id='__next']/div/main/main/div[2]/a[7]/div/div[2]", "xpath:idRelative"],
+        ["xpath=//a[7]/div/div[2]", "xpath:position"]
+      ],
+      "value": "",
+      "opensWindow": true,
+      "windowHandleName": "win9002",
+      "windowTimeout": 2000
+    }, {
+      "id": "556a1708-45fb-4d09-803e-6d0cb05b8e09",
+      "comment": "",
+      "command": "storeWindowHandle",
+      "target": "root",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6faac153-4e9a-4524-aa1c-260612173bcf",
+      "comment": "",
+      "command": "selectWindow",
+      "target": "handle=${win9002}",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "61da865f-3d60-4e61-a4b0-945fe224b27f",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "21819a23-ac2a-4166-adcf-97e1eb682098",
+      "comment": "",
+      "command": "selectWindow",
+      "target": "handle=${root}",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d25fae4b-557d-4851-a86b-8512858bfde8",
+      "comment": "",
+      "command": "click",
+      "target": "id=load-more-button",
+      "targets": [
+        ["id=load-more-button", "id"],
+        ["css=#load-more-button", "css:finder"],
+        ["xpath=//button[@id='load-more-button']", "xpath:attributes"],
+        ["xpath=//div[@id='__next']/div/main/main/button", "xpath:idRelative"],
+        ["xpath=//main/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Load More')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "7566844d-13f8-4e0c-8163-a38ec2087d7c",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://localhost:3333/"],
+  "plugins": []
+}

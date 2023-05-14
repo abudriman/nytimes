@@ -14,7 +14,7 @@ const ArticleCard = ({ article }: { article: IArticle }) => {
       href={article.web_url}
       target="_blank"
       rel="noopener noreferrer"
-      className="bg-zinc-200 dark:bg-zinc-900 min-h-[100px] w-auto overflow-hidden rounded-md shadow-md"
+      className="article-card bg-zinc-200 dark:bg-zinc-900 min-h-[100px] w-auto overflow-hidden rounded-md shadow-md"
     >
       <div className="flex flex-row lg:flex-col items-stretch h-full">
         <div className=" overflow-hidden relative">
@@ -133,6 +133,7 @@ const ArticleGrid = () => {
           onClick={loadMore}
           title="load more"
           className="ny-button mx-auto mb-8 block"
+          id="load-more-button"
         >
           Load More
         </button>

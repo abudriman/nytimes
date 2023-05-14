@@ -8,7 +8,7 @@ export function useSearch() {
     const addSearchHistory = useStoreActions(actions => actions.addSearchHistory);
     const queryString = new URLSearchParams({ search: searchQuery });
     const searchArticle = (query?: string) => {
-        if (searchQuery === '') {
+        if (searchQuery === '' && !query) {
             return
         }
         updateSearchQueryKey(query ?? searchQuery)

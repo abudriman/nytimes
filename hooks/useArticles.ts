@@ -2,7 +2,12 @@ import useSWRInfinite from 'swr/infinite'
 import { useStoreState } from './useStore'
 import { IArticleResponse } from '@/interface';
 
-const fetchArticles = (url: string) => fetch(url).then(res => res.json());
+const fetchArticles = (url: string) => fetch(url).then(response => {
+    if (response.ok) {
+        return response.json();
+    }
+    throw response;
+}).catch(err => { throw err });
 
 export function useArticles() {
     const searchQueryKey = useStoreState(state => state.searchQueryKey)

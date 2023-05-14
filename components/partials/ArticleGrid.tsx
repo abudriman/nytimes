@@ -89,10 +89,17 @@ const ArticleGrid = () => {
   const loadMore = () => {
     setSize(size + 1);
   };
-  if (isError) {
-    <div className="flex">
-      <p>Error occured : {JSON.stringify(isError)}</p>
-    </div>;
+  if (isError && !articles) {
+    return (
+      <div className="">
+        <p>Code : {isError.status}</p>
+        <p>Error : {isError.statusText}</p>
+        <p>
+          Please understand that this project use free api access which limited
+          to 500 request per day and 5 request per minute
+        </p>
+      </div>
+    );
   }
   if (isLoading) {
     return (

@@ -1,5 +1,5 @@
 import useSWRInfinite from 'swr/infinite'
-import { useStoreState } from './useStore'
+import { useStoreActions, useStoreState } from './useStore'
 import { IArticleResponse } from '@/interface';
 import formatFilterDate from '@/utils/formatFilterDate';
 
@@ -15,6 +15,7 @@ export function useArticles() {
     const sort = useStoreState(state => state.sort)
     const begin_date = useStoreState(state => state.begin_date)
     const end_date = useStoreState(state => state.end_date)
+    const setIsSearching = useStoreActions(actions => actions.setIsSearching);
 
     const getKey = (pageIndex: number, previousPageData: IArticleResponse) => {
         if (previousPageData && !previousPageData.response?.docs?.length) return null // reached the end
@@ -24,6 +25,12 @@ export function useArticles() {
 
     const { data, error, isLoading, size, mutate, setSize, isValidating } = useSWRInfinite<IArticleResponse>(getKey, fetchArticles, {
         revalidateOnFocus: false,
+        onError: () => {
+            setIsSearching(false)
+        },
+        onSuccess: () => {
+            setIsSearching(false)
+        }
     })
 
     return {

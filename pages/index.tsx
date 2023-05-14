@@ -1,14 +1,16 @@
 import Head from 'next/head';
 
 import { HomeHeader } from '@/components/partials';
-import { Footer, SearchBar } from '@/components/global';
+import { Footer, SearchBar, Spinner } from '@/components/global';
 import Link from 'next/link';
 import Image from 'next/image';
 
 import { useSearch } from '@/hooks/useSearch';
+import { useStoreState } from '@/hooks/useStore';
 
 const Home = () => {
   const search = useSearch();
+  const isSearching = useStoreState(state => state.isSearching);
   return (
     <>
       <Head>
@@ -56,8 +58,17 @@ const Home = () => {
             <button
               title="search article"
               onClick={() => search()}
-              className="ny-button"
+              className={`ny-button relative transition-all  ${
+                isSearching ? 'pr-10' : ''
+              }`}
             >
+              <span
+                className={`absolute right-0 my-auto ${
+                  isSearching ? '' : 'hidden'
+                }`}
+              >
+                <Spinner />
+              </span>
               Search Article
             </button>
           </div>

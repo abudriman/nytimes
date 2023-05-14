@@ -5,8 +5,10 @@ export function useSearch() {
     const router = useRouter();
     const updateSearchQueryKey = useStoreActions(actions => actions.updateSearchQueryKey);
     const addSearchHistory = useStoreActions(actions => actions.addSearchHistory);
+    const setIsSearching = useStoreActions(actions => actions.setIsSearching);
     const searchQuery = useStoreState(state => state.searchQuery);
     const searchArticle = (query?: string) => {
+        setIsSearching(true)
         if (searchQuery === '' && (!query || query === '')) {
             return
         }
@@ -16,6 +18,7 @@ export function useSearch() {
         setTimeout(() => {
             addSearchHistory(searchQuery)
         }, 500);
+
     };
     return searchArticle
 }

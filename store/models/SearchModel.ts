@@ -1,6 +1,8 @@
 import { Action } from 'easy-peasy';
 
 interface SearchModel {
+    isSearching: boolean;
+    setIsSearching: Action<SearchModel, boolean>;
     searchQuery: string;
     setSearchQuery: Action<SearchModel, string>;
     searchQueryKey: string; //for swr

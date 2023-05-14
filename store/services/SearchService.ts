@@ -2,6 +2,10 @@ import { action } from "easy-peasy";
 import SearchModel from "../models/SearchModel";
 
 const SearchService: SearchModel = {
+    isSearching: false,
+    setIsSearching: action((state, payload) => {
+        state.isSearching = payload
+    }),
     searchQuery: '',
     setSearchQuery: action((state, payload) => {
         state.searchQuery = payload

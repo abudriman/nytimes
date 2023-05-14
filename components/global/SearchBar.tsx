@@ -3,6 +3,7 @@ import { XCircle, Search, Clock } from 'react-feather';
 import { useStoreActions, useStoreState } from '@/hooks/useStore';
 import { useState, useEffect, useCallback } from 'react';
 import { useSearch } from '@/hooks/useSearch';
+import Spinner from './Spinner';
 
 const SearchBar = () => {
   const search = useSearch();
@@ -12,6 +13,7 @@ const SearchBar = () => {
   );
   const searchQuery = useStoreState(state => state.searchQuery);
   const searchHistory = useStoreState(state => state.searchHistory);
+  const isSearching = useStoreState(state => state.isSearching);
   const [isFocus, setIsFocus] = useState(false);
   const resetInput = () => {
     setSearchQuery('');
@@ -74,6 +76,8 @@ const SearchBar = () => {
         title="search"
       >
         <input
+          disabled={isSearching}
+          inputMode="search"
           id="search-bar"
           className="bg-transparent w-full py-2 pl-8 pr-7 outline outline-1 outline-gray-300 rounded-lg focus-within:outline-none hover:bg-gray-100 focus:bg-gray-100 
         dark:text-white dark:focus-within:text-black dark:hover:text-black transition-colors"
@@ -90,11 +94,17 @@ const SearchBar = () => {
           }}
         />
         <input className="hidden" type="reset" value="" id="reset-button" />
-        <Search
-          size={18}
-          className="absolute z-10 left-0 top-0 bottom-0 my-auto ml-2 text-gray-500"
-          xlinkTitle="search icon"
-        />
+        {isSearching ? (
+          <span className="absolute z-10 left-0 top-0 bottom-0 my-auto ml-2 flex items-center">
+            <Spinner />
+          </span>
+        ) : (
+          <Search
+            size={18}
+            className="absolute z-10 left-0 top-0 bottom-0 my-auto ml-2 text-gray-500"
+            xlinkTitle="search icon"
+          />
+        )}
         <label
           htmlFor="reset-button"
           title="clear search"

@@ -128,6 +128,8 @@ const SearchBar = () => {
             );
           })}
           <button
+            className=" underline
+            "
             onClick={() => {
               clearSearchHistory();
             }}

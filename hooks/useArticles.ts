@@ -13,7 +13,7 @@ export function useArticles() {
         return `/api/articles?${queryString.toString()}`
     }
 
-    const { data, error, isLoading, size, mutate, setSize } = useSWRInfinite<IArticleResponse>(getKey, fetchArticles, {
+    const { data, error, isLoading, size, mutate, setSize, isValidating } = useSWRInfinite<IArticleResponse>(getKey, fetchArticles, {
         revalidateOnFocus: false,
     })
 
@@ -23,6 +23,7 @@ export function useArticles() {
         isError: error,
         size,
         mutate,
-        setSize
+        setSize,
+        isValidating
     }
 }

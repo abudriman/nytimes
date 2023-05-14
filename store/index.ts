@@ -6,7 +6,7 @@ import * as service from './services'
 const store = createStore<StoreModel>(
     persist({
         ...service.ArticleService,
-    }),
+    }, { storage: "localStorage" }),
     {
         version: 0
     }

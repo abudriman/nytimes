@@ -1,10 +1,14 @@
 import { ExternalLink } from 'react-feather';
 import Link from 'next/link';
 
-const Footer = () => {
+const Footer = ({ isAbsolute }: { isAbsolute?: boolean }) => {
   return (
-    <footer className="absolute w-full bottom-0 bg-zinc-200 dark:bg-zinc-900 flex justify-between p-2 text-sm">
-      <h6 className="">{new Date().getFullYear()} By Arif Budiman</h6>
+    <footer
+      className={`w-full bottom-0 bg-zinc-200 dark:bg-zinc-900 flex justify-between p-2 text-sm ${
+        isAbsolute ? 'absolute' : ''
+      }`}
+    >
+      <h6 className=""></h6>
       <div className="flex space-x-3">
         <Link
           href="https://github.com/abudriman/nytimes"

@@ -6,7 +6,9 @@ import { IArticle } from '@/interface';
 import Image from 'next/image';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { ImageWithFallback } from '@/components/global';
+import { Footer, ImageWithFallback } from '@/components/global';
+import { useEffect, memo } from 'react';
+import { useStoreActions } from '@/hooks/useStore';
 
 const ArticleCard = ({ article }: { article: IArticle }) => {
   return (
@@ -26,7 +28,7 @@ const ArticleCard = ({ article }: { article: IArticle }) => {
             <ImageWithFallback
               height={144}
               width={500}
-              className="min-h-[9rem] h-full w-36 max-w-[9rem] min-w-[9rem] lg:h-36 lg:w-full lg:max-w-full lg:min-w-full object-cover object-center lg:object-top"
+              className="min-h-[9rem] h-full lg:h-36 w-36 max-w-[9rem] min-w-[9rem]  lg:w-full lg:max-w-full lg:min-w-full object-cover object-center lg:object-top"
               src={'https://www.nytimes.com/' + article.multimedia[0].url}
               alt={
                 article.multimedia[0].caption ??
@@ -42,7 +44,7 @@ const ArticleCard = ({ article }: { article: IArticle }) => {
             <Image
               height={144}
               width={500}
-              className="min-h-[9rem] h-full w-36 max-w-[9rem] min-w-[9rem] lg:h-36 lg:w-full lg:max-w-full lg:min-w-full object-cover object-center lg:object-top dark:invert"
+              className="min-h-[9rem] h-full lg:h-36 w-36 max-w-[9rem] min-w-[9rem]  lg:w-full lg:max-w-full lg:min-w-full object-cover object-center lg:object-top dark:invert"
               src="/news-placeholder.jpg"
               alt="new york times articles"
             ></Image>
@@ -67,55 +69,61 @@ const ArticleCard = ({ article }: { article: IArticle }) => {
   );
 };
 
-const ArticleCardSkeleton = () => {
+const ArticleCardSkeleton = memo(function ArticleCardSkeleton() {
   return (
-    <div className="bg-zinc-200 dark:bg-zinc-900 h-[100px] w-auto animate-pulse"></div>
+    <div className="bg-zinc-200 dark:bg-zinc-900 min-h-[9rem] h-full rounded-md w-auto animate-pulse"></div>
   );
-};
+});
+
+const SkeletonGrid = memo(function SkeletonGrid() {
+  return (
+    <>
+      {Array(24)
+        .fill(0)
+        .map((fill, index) => {
+          return <ArticleCardSkeleton key={index} />;
+        })}
+    </>
+  );
+});
 
 const ArticleGrid = () => {
-  const { articles, size, setSize, isLoading, isError } = useArticles();
-  console.log(size);
+  const { articles, size, setSize, isLoading, isError, isValidating } =
+    useArticles();
   const loadMore = () => {
     setSize(size + 1);
   };
   if (isError) {
     <div className="flex">
-      <p>Error occured</p>
+      <p>Error occured : {JSON.stringify(isError)}</p>
     </div>;
   }
-  if (!articles) {
+  if (isLoading) {
     return (
-      <div className="flex">
-        <p>Error occured</p>
+      <div className="px-4 md:px-0 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <SkeletonGrid />
       </div>
     );
   }
   return (
     <>
       <div className="px-4 md:px-0 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {articles.map((response, pageIndex) => {
+        {articles?.map((response, pageIndex) => {
           return response.response?.docs?.map((article, index) => {
             return <ArticleCard key={index} article={article} />;
           });
         })}
+        {isValidating && <SkeletonGrid />}
       </div>
-      {isLoading && (
-        <div className="px-4 md:px-0 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {Array(50)
-            .fill(0)
-            .map((fill, index) => {
-              return <ArticleCardSkeleton key={index} />;
-            })}
-        </div>
-      )}
-      <button
-        onClick={loadMore}
-        title="load more"
-        className="ny-button mx-auto mb-8 block"
-      >
-        Load More
-      </button>
+      {!isValidating && !isLoading && !isError ? (
+        <button
+          onClick={loadMore}
+          title="load more"
+          className="ny-button mx-auto mb-8 block"
+        >
+          Load More
+        </button>
+      ) : null}
     </>
   );
 };
@@ -133,6 +141,14 @@ export const getServerSideProps: GetServerSideProps<{
 const Result = ({
   search,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const updateSearchQueryKey = useStoreActions(
+    actions => actions.updateSearchQueryKey,
+  );
+  const setSearchQuery = useStoreActions(actions => actions.setSearchQuery);
+  useEffect(() => {
+    updateSearchQueryKey(search);
+    setSearchQuery(search);
+  }, [search, updateSearchQueryKey, setSearchQuery]);
   return (
     <>
       <Head>
@@ -142,9 +158,10 @@ const Result = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ResultHeader />
-      <main className="container mx-auto space-y-4 py-4">
+      <main className="container mx-auto space-y-4 pt-4 pb-12 min-h-screen">
         <ArticleGrid />
       </main>
+      <Footer />
     </>
   );
 };

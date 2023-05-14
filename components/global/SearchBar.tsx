@@ -77,7 +77,6 @@ const SearchBar = () => {
       >
         <input
           disabled={isSearching}
-          inputMode="search"
           id="search-bar"
           className="bg-transparent w-full py-2 pl-8 pr-7 outline outline-1 outline-gray-300 rounded-lg focus-within:outline-none hover:bg-gray-100 focus:bg-gray-100 
         dark:text-white dark:focus-within:text-black dark:hover:text-black transition-colors"

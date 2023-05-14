@@ -6,6 +6,7 @@ const About = () => {
   return (
     <>
       <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>About | NyTimes Article Search</title>
         <meta name="description" content="About this project." />
         <meta property="og:title" content="About | NyTimes Article Search" />

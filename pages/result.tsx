@@ -36,6 +36,7 @@ const Result = ({
   return (
     <>
       <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Result for &quot;{search}&quot; | NyTimes Article Search</title>
         <meta
           name="description"

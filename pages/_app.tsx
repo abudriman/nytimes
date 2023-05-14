@@ -18,7 +18,7 @@ function WaitForStateRehydration({
   children: ReactElement;
 }): ReactElement {
   const isRehydrated = useStoreRehydrated();
-  return isRehydrated ? children : <div>loading</div>;
+  return isRehydrated ? children : <div></div>;
 }
 
 type AppPropsWithLayout = AppProps & {

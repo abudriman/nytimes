@@ -22,7 +22,20 @@ const SearchService: SearchModel = {
     }),
     clearSearchHistory: action((state, payload) => {
         state.searchHistory = []
-    })
+    }),
+    sort: 'newest',
+    setSort: action((state, payload) => {
+        state.sort = payload
+    }),
+    begin_date: new Date(2000, 1, 1),
+    setBeginDate: action((state, payload) => {
+        state.begin_date = payload
+    }),
+    end_date: new Date(),
+    setEndDate: action((state, payload) => {
+        state.end_date = payload
+    }),
+
     // usually everything related to article i.e thunk written on it's own service 
     // but since I use swr it's not needed anymore. swr handle data 
     // caching so I use simplest form of global state management solution 

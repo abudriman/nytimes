@@ -1,4 +1,8 @@
-import { ArticleGrid, ResultHeader } from '@/components/partials';
+import {
+  ArticleFilter,
+  ArticleGrid,
+  ResultHeader,
+} from '@/components/partials';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import Head from 'next/head';
 import { Footer } from '@/components/global';
@@ -49,7 +53,8 @@ const Result = ({
         <meta property="og:url" content="https://nytimes.abud.top/result" />
       </Head>
       <ResultHeader />
-      <main className="container mx-auto space-y-4 pt-4 pb-12 min-h-screen">
+      <main className="container mx-auto space-y-4 pt-4 pb-12 min-h-screen px-4 md:px-0">
+        <ArticleFilter />
         <ArticleGrid />
       </main>
       <Footer />

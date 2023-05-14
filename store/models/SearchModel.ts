@@ -8,6 +8,12 @@ interface SearchModel {
     searchHistory: string[];
     addSearchHistory: Action<SearchModel, string>;
     clearSearchHistory: Action<SearchModel>;
+    sort: string;
+    setSort: Action<SearchModel, 'newest' | 'oldest' | 'relevance'>;
+    begin_date: Date;
+    setBeginDate: Action<SearchModel, Date>;
+    end_date: Date;
+    setEndDate: Action<SearchModel, Date>;
 }
 
 export default SearchModel

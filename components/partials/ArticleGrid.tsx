@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { format } from 'date-fns';
 import { ImageWithFallback } from '@/components/global';
 import { memo } from 'react';
+import { useStoreState } from '@/hooks/useStore';
+import formatHumanDate from '@/utils/formatHumanDate';
 
 const ArticleCard = ({ article }: { article: IArticle }) => {
   return (
@@ -17,7 +19,7 @@ const ArticleCard = ({ article }: { article: IArticle }) => {
       <div className="flex flex-row lg:flex-col items-stretch h-full">
         <div className=" overflow-hidden relative">
           <span className="font-bold uppercase text-xs absolute z-10 bottom-0 right-0 bg-black text-white dark:bg-white dark:text-black">
-            {format(new Date(article.pub_date ?? Date.now()), 'MMM d, yyyy')}
+            {formatHumanDate(new Date(article.pub_date ?? Date.now()))}
             &nbsp;
           </span>
           {article.multimedia.length ? (
@@ -89,9 +91,10 @@ const ArticleGrid = () => {
   const loadMore = () => {
     setSize(size + 1);
   };
+  const searchQueryKey = useStoreState(state => state.searchQueryKey);
   if (isError && !articles) {
     return (
-      <div className="">
+      <div className="px-4">
         <p>Code : {isError.status}</p>
         <p>Error : {isError.statusText}</p>
         <p>
@@ -108,9 +111,16 @@ const ArticleGrid = () => {
       </div>
     );
   }
+  if (articles && size === 1 && !articles[0].response?.meta?.hits) {
+    return (
+      <div className="px-4">
+        <p>No result match for keyword &quot;{searchQueryKey}&quot;</p>
+      </div>
+    );
+  }
   return (
     <>
-      <div className="px-4 md:px-0 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {articles?.map((response, pageIndex) => {
           return response.response?.docs?.map((article, index) => {
             return <ArticleCard key={index} article={article} />;

@@ -63,7 +63,7 @@ const Home = () => {
               }`}
             >
               <span
-                className={`absolute right-0 my-auto ${
+                className={`absolute right-0 mr-1 my-auto ${
                   isSearching ? '' : 'hidden'
                 }`}
               >

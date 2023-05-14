@@ -8,10 +8,10 @@ export function useSearch() {
     const setIsSearching = useStoreActions(actions => actions.setIsSearching);
     const searchQuery = useStoreState(state => state.searchQuery);
     const searchArticle = (query?: string) => {
-        setIsSearching(true)
         if (searchQuery === '' && (!query || query === '')) {
             return
         }
+        setIsSearching(true)
         updateSearchQueryKey(query ?? searchQuery)
         const queryString = new URLSearchParams({ search: query ?? searchQuery });
         router.push('/result?' + queryString);

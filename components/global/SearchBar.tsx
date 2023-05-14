@@ -68,6 +68,7 @@ const SearchBar = () => {
         onSubmit={e => {
           e.preventDefault();
           setIsFocus(false);
+          inputRef.current?.blur();
           search();
         }}
         title="search"
@@ -104,6 +105,15 @@ const SearchBar = () => {
             className="absolute z-10 right-0 top-0 bottom-0 my-auto mr-2 text-gray-500 cursor-pointer"
             onClick={resetInput}
           />
+        </label>
+        <label
+          className={`${
+            searchQuery ? '' : 'lg:flex'
+          } hidden absolute z-10 right-0 top-0 bottom-0 my-auto mr-2 items-center text-xs`}
+        >
+          <span className="bg-zinc-500 text-gray-100 p-1 rounded-sm">CTRL</span>
+          <span>+</span>
+          <span className="bg-zinc-500 text-gray-100 p-1 rounded-sm">K</span>
         </label>
       </form>
       {!searchHistory.length ? null : (

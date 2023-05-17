@@ -19,7 +19,12 @@ export function useArticles() {
 
     const getKey = (pageIndex: number, previousPageData: IArticleResponse) => {
         if (previousPageData && !previousPageData.response?.docs?.length) return null // reached the end
-        const queryString = new URLSearchParams({ q: searchQueryKey, page: (pageIndex).toString(), sort, begin_date: formatFilterDate(begin_date), end_date: formatFilterDate(end_date) })
+        const queryString = new URLSearchParams({
+            q: searchQueryKey, page: (pageIndex).toString(),
+            sort,
+            begin_date: formatFilterDate(begin_date),
+            end_date: formatFilterDate(end_date)
+        })
         return `/api/articles?${queryString.toString()}`
     }
 

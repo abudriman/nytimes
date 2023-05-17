@@ -73,16 +73,17 @@ const ArticleFilter = () => {
   const setBeginDate = useStoreActions(actions => actions.setBeginDate);
   const setEndDate = useStoreActions(actions => actions.setEndDate);
   const handleDateChange = () => {
-    setEndDate(
-      new Date(
-        (document.getElementById('end_date') as HTMLInputElement)?.value,
-      ),
-    );
-    setBeginDate(
-      new Date(
-        (document.getElementById('begin_date') as HTMLInputElement)?.value,
-      ),
-    );
+    let endDateValue = (document.getElementById('end_date') as HTMLInputElement)
+      ?.value;
+    let beginDateValue = (
+      document.getElementById('begin_date') as HTMLInputElement
+    )?.value;
+    if (endDateValue && endDateValue !== '') {
+      setEndDate(new Date(endDateValue));
+    }
+    if (beginDateValue && beginDateValue !== '') {
+      setBeginDate(new Date(beginDateValue));
+    }
   };
   return (
     <div className="flex  scrollbar-none flex-col sm:flex-row items-start space-y-2 sm:space-y-0 space-x-0 sm:space-x-2">
